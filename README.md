@@ -25,6 +25,12 @@ composer install
 cp .env.example .env
 ```
 
+4. **App key generálása**
+
+```bash
+php artisan key:generate
+```
+
 Állítsd be a `.env` fájlban az adatbázis és egyéb környezeti változókat. Példa Sail-re:
 
 ```env
