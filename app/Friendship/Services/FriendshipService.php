@@ -20,7 +20,8 @@ readonly class FriendshipService implements IFriendshipService
 {
     public function __construct(
         private IFriendshipRepository $friendshipRepository
-    ) {
+    )
+    {
     }
 
     public function getActiveFriendsByUserId(int $userId): Collection
@@ -117,5 +118,10 @@ readonly class FriendshipService implements IFriendshipService
             $receiverId,
             FriendshipStatusEnum::Pending
         );
+    }
+
+    public function areMutualFriends(int $userId, int $friendId): bool
+    {
+        return $this->friendshipRepository->areMutualFriends($userId, $friendId);
     }
 }

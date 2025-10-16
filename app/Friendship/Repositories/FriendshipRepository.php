@@ -102,4 +102,12 @@ class FriendshipRepository implements IFriendshipRepository
             })->delete();
         });
     }
+
+    public function areMutualFriends(int $userId, int $friendId): bool
+    {
+        return Friendship::whereIn('user_id', [$userId, $friendId])
+                ->whereIn('friend_id', [$userId, $friendId])
+                ->where('status', 'accepted')
+                ->count() === 2;
+    }
 }

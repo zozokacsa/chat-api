@@ -89,4 +89,19 @@ interface IFriendshipService
      * @return bool
      */
     public function hasPendingRequest(int $senderId, int $receiverId): bool;
+
+    /**
+     * Determine whether two users are mutual (accepted) friends.
+     *
+     * A mutual friendship means both users have accepted each other.
+     * This method checks if two reciprocal records exist in the
+     * `friendships` table with status = 'accepted':
+     *   - one where user_id = $userId and friend_id = $friendId
+     *   - one where user_id = $friendId and friend_id = $userId
+     *
+     * @param int $userId The ID of the first user (usually the current authenticated user).
+     * @param int $friendId The ID of the second user to check friendship with.
+     * @return bool             True if both users are mutual friends, false otherwise.
+     */
+    public function areMutualFriends(int $userId, int $friendId): bool;
 }

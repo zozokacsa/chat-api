@@ -10,12 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use DateTimeImmutable;
 
 /**
  * @property int $id
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property DateTimeImmutable $created_at
+ * @property DateTimeImmutable $updated_at
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -53,6 +56,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 

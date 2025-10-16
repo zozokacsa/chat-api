@@ -2,6 +2,7 @@
 
 use App\Auth\Http\Controllers\AuthController;
 use App\Auth\Http\Controllers\UserController;
+use App\Messaging\Http\Controllers\MessageController;
 use App\Friendship\Http\Controllers\FriendshipController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +50,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         'as' => 'users.'
     ], function () {
         Route::get('/', [UserController::class, 'list']);
+    });
+
+    Route::group([
+        'prefix' => 'messages',
+        'as' => 'messages.'
+    ], function () {
+        Route::post('/', [MessageController::class, 'store']);
+        Route::get('/{friend_id}', [MessageController::class, 'show']);
     });
 });

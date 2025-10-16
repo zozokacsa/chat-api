@@ -8,12 +8,15 @@ use App\Friendship\Enums\FriendshipStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use DateTimeImmutable;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property int $friend_id
  * @property FriendshipStatusEnum $status
+ * @property DateTimeImmutable $created_at
+ * @property DateTimeImmutable $updated_at
  */
 class Friendship extends Model
 {
@@ -35,6 +38,8 @@ class Friendship extends Model
     {
         return [
             'status' => FriendshipStatusEnum::class,
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 
