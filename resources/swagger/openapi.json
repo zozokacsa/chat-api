@@ -221,7 +221,74 @@
             "get": {
                 "summary": "List active users",
                 "security": [{ "bearerAuth": [] }],
-                "responses": { "200": { "description": "Active users list" } }
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search text to filter users (e.g., part of name or email)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination (min: 1)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results per page (1–100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "search_by",
+                        "in": "query",
+                        "description": "Field to search by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["name", "email"]
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Field to sort by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["id", "name", "email"]
+                        }
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Sort direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["asc", "desc"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Active users list"
+                    }
+                }
             }
         },
         "/api/messages": {
