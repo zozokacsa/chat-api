@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Events\Registered;
 
-class AuthService implements IAuthService
+readonly class AuthService implements IAuthService
 {
     public function __construct(
-        private readonly IUserService $userService
+        private IUserService $userService
     )
     {
     }

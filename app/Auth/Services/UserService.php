@@ -8,10 +8,10 @@ use App\Auth\Contracts\IUserService;
 use App\Auth\Models\User;
 use App\Auth\ValueObjects\CreateUserVO;
 
-class UserService implements IUserService
+readonly class UserService implements IUserService
 {
     public function __construct(
-        private readonly IUserRepository $userRepository,
+        private IUserRepository $userRepository,
     )
     {
     }

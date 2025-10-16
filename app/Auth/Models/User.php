@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Auth\Models;
 
+use App\Friendship\Models\Friendship;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,5 +53,21 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+        /**
+     * Friendships where this user is the initiator
+     */
+    public function friendshipsAsUser(): HasMany
+    {
+        return $this->hasMany(Friendship::class, 'user_id');
+    }
+
+    /**
+     * Friendships where this user is the friend
+     */
+    public function friendshipsAsFriend(): HasMany
+    {
+        return $this->hasMany(Friendship::class, 'friend_id');
     }
 }

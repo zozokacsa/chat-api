@@ -27,71 +27,47 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
-            $createUserVO = new CreateUserVO(
-                name: Arr::get($validatedData, 'name'),
-                email: Arr::get($validatedData, 'email'),
-                password: Arr::get($validatedData, 'password'),
-            );
-            $this->authService->register($createUserVO);
+        $validatedData = $request->validated();
+        $createUserVO = new CreateUserVO(
+            name: Arr::get($validatedData, 'name'),
+            email: Arr::get($validatedData, 'email'),
+            password: Arr::get($validatedData, 'password'),
+        );
+        $this->authService->register($createUserVO);
 
-            return response()->json([
-                'success' => true
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        try {
-            /** @var User $user */
-            $user = $this->authService->loginWithEmailAndPassword(
-                email: $request->get('email'),
-                password: $request->get('password'),
-            );
+        /** @var User $user */
+        $user = $this->authService->loginWithEmailAndPassword(
+            email: $request->get('email'),
+            password: $request->get('password'),
+        );
 
-            $this->authService->checkUserIsVerified($user);
-            $token = $this->authService->createToken($user);
+        $this->authService->checkUserIsVerified($user);
+        $token = $this->authService->createToken($user);
 
-            return response()->json([
-                'token' => $token,
-                'user' => $user
-            ]);
-        } catch (InvalidCredentialsException|UserNotVerifiedException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
+        return response()->json([
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 
     public function me(Request $request): JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'data' => $request->user()
-        ]);
+        return response()->json($request->user());
     }
 
     public function verifyEmail(ApiEmailVerificationRequest $request, int $id): JsonResponse
     {
-        try {
-            $this->authService->verifyUserById($id);
+        $this->authService->verifyUserById($id);
 
-            return response()->json([
-                'success' => true
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
+        return response()->json([
+            'success' => true
+        ]);
     }
 }
