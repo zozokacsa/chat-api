@@ -5,6 +5,7 @@ namespace App\Friendship\Http\Controllers;
 
 use App\Friendship\Contracts\IFriendshipService;
 use App\Friendship\Http\Requests\StoreFriendRequestRequest;
+use App\Friendship\Http\Resources\FriendshipResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -12,25 +13,32 @@ class FriendshipController extends Controller
 {
     public function __construct(
         private readonly IFriendshipService $friendshipService
-    ) {
+    )
+    {
     }
 
     public function index(): JsonResponse
     {
         $friends = $this->friendshipService->getActiveFriendsByUserId(auth()->id());
-        return response()->json($friends);
+        return response()->json(
+            FriendshipResource::collection($friends)
+        );
     }
 
     public function receivedRequests(): JsonResponse
     {
         $requests = $this->friendshipService->getReceivedFriendRequests(auth()->id());
-        return response()->json($requests);
+        return response()->json(
+            FriendshipResource::collection($requests)
+        );
     }
 
     public function sentRequests(): JsonResponse
     {
         $requests = $this->friendshipService->getSentFriendRequests(auth()->id());
-        return response()->json($requests);
+        return response()->json(
+            FriendshipResource::collection($requests)
+        );
     }
 
     public function store(StoreFriendRequestRequest $request): JsonResponse

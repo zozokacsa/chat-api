@@ -4,17 +4,15 @@ declare(strict_types=1);
 namespace App\Auth\Http\Controllers;
 
 use App\Auth\Contracts\IAuthService;
-use App\Auth\Exceptions\InvalidCredentialsException;
-use App\Auth\Exceptions\UserNotVerifiedException;
 use App\Auth\Http\Requests\ApiEmailVerificationRequest;
 use App\Auth\Http\Requests\LoginRequest;
 use App\Auth\Http\Requests\RegisterRequest;
+use App\Auth\Http\Resources\UserResource;
 use App\Auth\Models\User;
 use App\Auth\ValueObjects\CreateUserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Exception;
 use Illuminate\Support\Arr;
 
 class AuthController extends Controller
@@ -59,7 +57,9 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        return response()->json($request->user());
+        return response()->json(
+            new UserResource($request->user())
+        );
     }
 
     public function verifyEmail(ApiEmailVerificationRequest $request, int $id): JsonResponse

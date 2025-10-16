@@ -7,6 +7,8 @@ use App\Auth\Contracts\IUserRepository;
 use App\Auth\Contracts\IUserService;
 use App\Auth\Models\User;
 use App\Auth\ValueObjects\CreateUserVO;
+use App\Auth\ValueObjects\SearchUserVO;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class UserService implements IUserService
 {
@@ -24,5 +26,10 @@ readonly class UserService implements IUserService
     public function create(CreateUserVO $createUserVO): ?User
     {
         return $this->userRepository->create($createUserVO);
+    }
+
+    public function getActiveUsersList(SearchUserVO $searchUserVO): LengthAwarePaginator
+    {
+        return $this->userRepository->getActiveUsersPaginated($searchUserVO);
     }
 }
