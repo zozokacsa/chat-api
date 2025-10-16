@@ -16,7 +16,7 @@ class FriendshipTest extends TestCase
         $token = $user->createToken('test')->plainTextToken;
 
         $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/friends');
+            ->getJson('/api/friends');
 
         $response->assertStatus(200)
             ->assertJsonStructure([]);
@@ -29,7 +29,7 @@ class FriendshipTest extends TestCase
         $token = $user->createToken('test')->plainTextToken;
 
         $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/friends/requests', ['friend_id' => $friend->id]);
+            ->postJson('/api/friends/requests', ['friend_id' => $friend->id]);
 
         $response->assertStatus(201);
     }

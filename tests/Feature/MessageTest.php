@@ -28,7 +28,7 @@ class MessageTest extends TestCase
         $token = $user->createToken('test')->plainTextToken;
 
         $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/messages', [
+            ->postJson('/api/messages', [
                 'receiver_id' => $friend->id,
                 'message' => 'Hello!',
             ]);
@@ -45,7 +45,7 @@ class MessageTest extends TestCase
         $token = $user->createToken('test')->plainTextToken;
 
         $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/messages', ['receiver_id' => $friend->id, 'message' => 'Hi']);
+            ->postJson('/api/messages', ['receiver_id' => $friend->id, 'message' => 'Hi']);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
             ->getJson("/api/messages/{$friend->id}");
